@@ -4,9 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParams } from "../../navigation";
 
-const Avatar = () => (
-  <MuiAvatar.Text size={24} label="JG" />
-)
+const Avatar = () => <MuiAvatar.Text size={24} label="JG" color="#fff" />;
 
 const ProfileAvatar = () => {
   const navigation =
@@ -17,10 +15,9 @@ const ProfileAvatar = () => {
       icon={Avatar}
       color="white"
       // @ts-ignore
-      onPress={() =>  navigation.openDrawer()}
+      onPress={() => navigation.openDrawer()}
     />
   );
 };
 
 export default ProfileAvatar;
-
