@@ -1,4 +1,5 @@
 import {
+  createNavigationContainerRef,
   NavigationContainer,
   useNavigation,
   // DefaultTheme,
@@ -8,10 +9,10 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import * as React from "react";
-import { Entypo } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
-import { AntDesign } from '@expo/vector-icons'; 
+import React, { useState } from "react";
+import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import { Text, TouchableOpacity, View } from "react-native";
 import Profile from "../screens/Profile";
@@ -25,6 +26,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { linking } from "./LinkingConfiguration";
 import AppBar from "../components/AppBar";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import navigationBar from "../../vynca-portal/app/redux/legacy-knives/container/navigation-bar";
 
 export type RootStackParams = {
   Root: any;
@@ -38,25 +40,37 @@ export type RootStackParams = {
 
 export default function Navigation() {
   const Stack = createNativeStackNavigator<RootStackParams>();
+  const [currentRoute, setCurrentRoute] = useState(null);
+  const navigationRef = createNavigationContainerRef();
 
   const DrawerNavigator = createDrawerNavigator();
 
   const DrawerContent = ({ navigation }) => (
-    <View style={{padding: 40}}>
+    <View style={{ padding: 40 }}>
       <Text>Drawer stuff here</Text>
       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-      <Text>Go to profile</Text>
+        <Text>Go to profile</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
     <>
-      <NavigationContainer linking={linking}>
+      <NavigationContainer
+        onReady={() => {
+          setCurrentRoute(navigationRef.getCurrentRoute().name);
+        }}
+        onStateChange={async () => {
+          const currentRouteName = navigationRef.getCurrentRoute().name;
+          setCurrentRoute(currentRouteName);
+        }}
+        linking={linking}
+        ref={navigationRef}
+      >
         <DrawerNavigator.Navigator
           screenOptions={{
             //@ts-ignore
-            header: (props) => <AppBar {...props} />,
+            header: (props) => <AppBar {...props} currentRoute={currentRoute} />,
           }}
           drawerContent={(props) => (
             <DrawerContent navigation={props.navigation} />
@@ -95,18 +109,18 @@ const BottomNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="search"
+        name="Search"
         component={Search}
         options={{
           // @ts-ignore this works fine with elements as well as string
-          tabBarLabel: <Text style={{ fontSize: 8 }}>search</Text>,
+          tabBarLabel: <Text style={{ fontSize: 8 }}>Search</Text>,
           tabBarIcon: ({ color }) => (
             <Entypo name="magnifying-glass" size={20} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="Notification"
+        name="Notifications"
         component={Notifications}
         options={{
           tabBarLabelStyle: {
@@ -115,7 +129,7 @@ const BottomNavigation = () => {
           // @ts-ignore this works fine with elements as well as string
           tabBarLabel: <Text style={{ fontSize: 8 }}>Notifications</Text>,
           tabBarIcon: ({ color }) => (
-            <Ionicons name="notifications-outline" size={20} color={color}  />
+            <Ionicons name="notifications-outline" size={20} color={color} />
           ),
         }}
       />

@@ -6,14 +6,15 @@ import NotificationBell from './NofificationBell';
 import ProfileAvatar from './ProfileAvatar';
 import Logo from './VyncaLogo';
 
-const AppBar = ({navigation}) => {
+const AppBar = (props) => {
   const { canGoBack, goBack } = useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const route = useRoute();
+  console.log('ROUTE', props.currentRoute)
 
      return (
-      <Appbar.Header>
+      <Appbar.Header >
         {canGoBack() && <Appbar.BackAction onPress={goBack} />}
-        <Appbar.Content title={!canGoBack() ? "DRYFT" : null} />
+        <Appbar.Content title={props.currentRoute} />
         <ProfileAvatar />
       </Appbar.Header>
     );
