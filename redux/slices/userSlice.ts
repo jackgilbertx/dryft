@@ -5,7 +5,6 @@ import mockUser from '../MockData/user.json';
 type User = {
   name: string;
   email: string;
-  phone: string;
 };
 
 type UserState = {

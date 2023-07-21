@@ -5,11 +5,41 @@ import { ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { RootState } from "../redux/store";
-import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
+import { useAppTheme } from '../theme'
 import { getUser } from "../redux/slices/userSlice";
 
 const Reminders = (props: { title: string; subTitle: string }) => {
   const { title, subTitle } = props;
+  const theme = useAppTheme()
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: theme.spacing[4],
+    },
+    reminderContainer: {
+      marginBottom: theme.spacing[3],
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: "bold",
+      marginBottom: 24,
+    },
+    reminderHeader: {
+      fontSize: 20,
+      marginBottom: 4,
+      fontWeight: 500,
+    },
+    text: {
+      fontSize: 12,
+      marginBottom: 4,
+    },
+    divider: {
+     // borderBottom: "1px solid grey",
+    },
+  });
+
   return (
     <View style={styles.reminderContainer}>
       <Text style={styles.reminderHeader}>{title}</Text>
@@ -79,29 +109,3 @@ const Home = ({ navigation }) => {
 
 export default Home;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 40,
-  },
-  reminderContainer: {
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 24,
-  },
-  reminderHeader: {
-    fontSize: 20,
-    marginBottom: 4,
-    fontWeight: 500,
-  },
-  text: {
-    fontSize: 12,
-    marginBottom: 4,
-  },
-  divider: {
-   // borderBottom: "1px solid grey",
-  },
-});

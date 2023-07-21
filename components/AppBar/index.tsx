@@ -7,15 +7,15 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { View, StyleSheet } from "react-native";
 import { Appbar } from "react-native-paper";
 import { RootStackParams } from "../../navigation";
-import { useTheme } from "react-native-paper";
+import { useAppTheme } from "../../theme";
 import ProfileAvatar from "./ProfileAvatar";
 import Logo from "./VyncaLogo";
 
-const AppBar = (props) => {
+const AppBar = ({currentRoute}) => {
   const { canGoBack, goBack } =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const theme = useTheme()
+  const theme = useAppTheme()
   console.log(theme)
 
 
@@ -27,13 +27,14 @@ const AppBar = (props) => {
     },
   });
 
+  const backRoutes = ['Profile']
 
   return (
     // @ts-ignore
     <View style={styles.container}>
       <Appbar.Header>
-        {canGoBack() && <Appbar.BackAction onPress={goBack} />}
-        <Appbar.Content title={props.currentRoute} />
+        {backRoutes.includes(currentRoute) && <Appbar.BackAction onPress={goBack} />}
+        <Appbar.Content title={currentRoute} />
         <ProfileAvatar />
       </Appbar.Header>
     </View>

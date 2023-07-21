@@ -13,6 +13,11 @@ export const linking: LinkingOptions<any> = {
     screens: {
       Root: {
         screens: {
+          Login: {
+            screens: {
+              Login: 'Login',
+            },
+          },
           Home: {
             screens: {
               Home: 'Home',
