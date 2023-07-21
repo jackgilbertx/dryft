@@ -1,7 +1,7 @@
 // @ts-ignore
 import { useEffect } from 'react'
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
-import { TextInput, Button, TouchableRipple, Text } from 'react-native-paper'
+import { TextInput, Button as MuiButton, TouchableRipple, Text } from 'react-native-paper'
 import { Formik, useFormik } from 'formik'
 import styled from 'styled-components/native'
 import * as yup from 'yup'
@@ -10,6 +10,8 @@ import { useAppTheme } from '../theme'
 
 export default function Login() {
   const theme = useAppTheme()
+
+  console.log('THEME', theme)
 
   const validationSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email required'),
@@ -46,7 +48,7 @@ export default function Login() {
     orText: {
       paddingVertical: theme.spacing[2],
       textAlign: 'center',
-      paddingHorizontal: theme.spacing[2] * 2,
+      paddingHorizontal: theme.spacing[2],
     },
     dividerContainer: {
       display: 'flex',
@@ -62,10 +64,15 @@ export default function Login() {
     googleBtn: {
       marginBottom: theme.spacing[2],
       borderColor: theme.colors.primary,
+      padding: 9,
+      borderWidth: 1,
+      borderRadius: 24
     },
     googleBtnText: {
+      paddingBottom: 0,
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'center',
       flexDirection: 'row',
     },
     register: {
@@ -139,7 +146,7 @@ export default function Login() {
             {formik.errors.password || ' '}
           </Text>
 
-          <Button
+          <MuiButton
             style={styles.submitBtn}
             onPress={formik.handleSubmit}
             mode='contained'
@@ -147,7 +154,7 @@ export default function Login() {
             // title='Submit'
           >
             Submit
-          </Button>
+          </MuiButton>
         </View>
       </>
 
@@ -159,15 +166,15 @@ export default function Login() {
         <View style={styles.divider} />
       </View>
 
-      <Button style={styles.googleBtn} mode='outlined'>
+      <TouchableOpacity style={styles.googleBtn}>
         <View style={styles.googleBtnText}>
           <Image
-            style={{ height: 20, width: 20, marginRight: theme.spacing[1] }}
+            style={{ margin: 0, height: 20, width: 20, marginRight: theme.spacing[1] }}
             source={require('../assets/images/google_icon.png')}
           />
-          Sign in with google
+          <Text variant='titleSmall'>Sign in with google</Text>
         </View>
-      </Button>
+      </TouchableOpacity>
 
       <View style={styles.register}>
         <Text style={styles.registerText} variant='bodySmall'>
