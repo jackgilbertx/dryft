@@ -14,7 +14,8 @@ import React, { useState } from 'react'
 import { Entypo } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import Profile from '../screens/Profile'
 import NotFoundScreen from '../screens/NotFoundScreen'
 import Messages from '../screens/Messages'
@@ -52,9 +53,6 @@ const MyTheme = {
   },
 }
 
-console.log('NAV THEME', DefaultTheme)
-
-
 export const useAppNavigation = () => useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
 export default function Navigation() {
@@ -62,15 +60,18 @@ export default function Navigation() {
   const [currentRoute, setCurrentRoute] = useState(null)
   const navigationRef = createNavigationContainerRef()
   const DrawerNavigator = createDrawerNavigator()
-  const theme = useAppTheme()
+  const [isLoggedIn, setIsloggedIn] = useState(true)
 
-  const DrawerContent = ({ navigation }) => (
-    <View style={{ padding: 40 }}>
-      <Text>Drawer stuff here</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-        <Text>Go to profile</Text>
-      </TouchableOpacity>
-    </View>
+  const DrawerContent = ({navigation}) => (
+      <View style={{ padding: 40 }}>
+        <Text variant='bodyLarge'>Drawer stuff here</Text>
+        <TouchableOpacity style={{}} onPress={() => navigation.navigate('Profile')}>
+          <Text variant='bodyMedium'>Go to profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setIsloggedIn(false)}>
+        <Text variant='bodyMedium'>Logout</Text>
+        </TouchableOpacity>
+      </View>
   )
 
   return (
@@ -88,9 +89,13 @@ export default function Navigation() {
         linking={linking}
         ref={navigationRef}
       >
-        {true ? (
+        {!isLoggedIn ? (
           <>
-           <Stack.Navigator initialRouteName='Login'>
+           <Stack.Navigator initialRouteName='Login' screenOptions={{
+             header: (props) => (
+              <AppBar {...props} currentRoute={currentRoute} />
+            ),
+           }} >
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
           </Stack.Navigator>
@@ -122,6 +127,7 @@ export default function Navigation() {
 }
 
 function BottomTabs() {
+  const theme = useAppTheme()
 
   const Tab = createBottomTabNavigator()
 

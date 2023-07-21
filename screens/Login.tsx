@@ -1,5 +1,11 @@
 import { useEffect } from 'react'
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView,
+} from 'react-native'
 import {
   TextInput,
   Button as MuiButton,
@@ -27,14 +33,14 @@ export default function Login() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: theme.spacing[2],
+      paddingTop: theme.spacing[1],
       paddingHorizontal: theme.spacing[2],
       display: 'flex',
       flexDirection: 'column',
       alignContent: 'center',
     },
     icon: {
-      paddingBottom: theme.spacing[2],
+      paddingBottom: theme.spacing[6],
       marginRight: 'auto',
       marginLeft: 'auto',
     },
@@ -172,7 +178,7 @@ export default function Login() {
         <View style={styles.divider} />
       </View>
 
-      <TouchableOpacity style={styles.googleBtn}>
+      <TouchableRipple style={styles.googleBtn}>
         <View style={styles.googleBtnText}>
           <Image
             style={{
@@ -185,17 +191,14 @@ export default function Login() {
           />
           <Text variant='titleSmall'>Sign in with google</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableRipple>
 
       <View style={styles.register}>
         <Text style={styles.registerText} variant='bodySmall'>
           Don't have an account?
         </Text>
         <TouchableRipple onPress={() => navigation.navigate('Register')}>
-          <Text
-            style={styles.link}
-            variant='bodySmall'
-          >
+          <Text style={styles.link} variant='bodySmall'>
             Register
           </Text>
         </TouchableRipple>
