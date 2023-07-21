@@ -1,11 +1,9 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { RootStackParams } from '../navigation';
+import { useAppNavigation } from '../navigation';
 
 export default function NotFoundScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>()
+  const navigation = useAppNavigation()
 
   return (
     <View style={styles.container}>

@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { Appbar, Menu, Avatar as MuiAvatar } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParams } from "../../navigation";
+import { Appbar, Avatar as MuiAvatar } from "react-native-paper";
+import { useAppNavigation } from "../../navigation";
 
 const Avatar = () => <MuiAvatar.Text size={30} label="JG" color="#fff" />;
 
 const ProfileAvatar = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+    useAppNavigation();
 
   return (
     <Appbar.Action

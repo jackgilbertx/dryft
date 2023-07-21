@@ -18,6 +18,11 @@ export const linking: LinkingOptions<any> = {
               Login: 'Login',
             },
           },
+          Register: {
+            screens: {
+              Register: 'Register',
+            },
+          },
           Home: {
             screens: {
               Home: 'Home',

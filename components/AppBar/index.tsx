@@ -3,17 +3,16 @@ import {
   useRoute,
   useNavigationState,
 } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { View, StyleSheet } from "react-native";
 import { Appbar } from "react-native-paper";
-import { RootStackParams } from "../../navigation";
+import { useAppNavigation } from "../../navigation";
 import { useAppTheme } from "../../theme";
 import ProfileAvatar from "./ProfileAvatar";
 import Logo from "./VyncaLogo";
 
 const AppBar = ({currentRoute}) => {
   const { canGoBack, goBack } =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+    useAppNavigation();
 
   const theme = useAppTheme()
   console.log(theme)

@@ -8,8 +8,8 @@ import {
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   createNativeStackNavigator,
-  NativeStackNavigationProp,
 } from '@react-navigation/native-stack'
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from 'react'
 import { Entypo } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
@@ -26,6 +26,8 @@ import { linking } from './LinkingConfiguration'
 import AppBar from '../components/AppBar'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import Login from '../screens/Login'
+import Register from '../screens/Register'
+import { useAppTheme } from '../theme'
 
 export type RootStackParams = {
   Root: any
@@ -36,6 +38,7 @@ export type RootStackParams = {
   Profile: any
   NotFound: any
   Login: any
+  Register: any
 }
 
 const MyTheme = {
@@ -51,11 +54,15 @@ const MyTheme = {
 
 console.log('NAV THEME', DefaultTheme)
 
+
+export const useAppNavigation = () => useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
 export default function Navigation() {
   const Stack = createNativeStackNavigator<RootStackParams>()
   const [currentRoute, setCurrentRoute] = useState(null)
   const navigationRef = createNavigationContainerRef()
   const DrawerNavigator = createDrawerNavigator()
+  const theme = useAppTheme()
 
   const DrawerContent = ({ navigation }) => (
     <View style={{ padding: 40 }}>
@@ -85,7 +92,7 @@ export default function Navigation() {
           <>
            <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen name="Login" component={Login} />
-            {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
+            <Stack.Screen name="Register" component={Register} />
           </Stack.Navigator>
           </>
         ) : (
@@ -114,14 +121,15 @@ export default function Navigation() {
   )
 }
 
-const Tab = createBottomTabNavigator()
-
 function BottomTabs() {
+
+  const Tab = createBottomTabNavigator()
+
   return (
     <Tab.Navigator
       initialRouteName='Home'
       screenOptions={{
-        tabBarActiveTintColor: '#1ca2ef',
+        tabBarActiveTintColor: theme.colors.primary,
         headerShown: false,
       }}
     >

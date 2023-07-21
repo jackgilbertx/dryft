@@ -1,12 +1,16 @@
-// @ts-ignore
 import { useEffect } from 'react'
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
-import { TextInput, Button as MuiButton, TouchableRipple, Text } from 'react-native-paper'
-import { Formik, useFormik } from 'formik'
-import styled from 'styled-components/native'
+import {
+  TextInput,
+  Button as MuiButton,
+  TouchableRipple,
+  Text,
+} from 'react-native-paper'
+import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { Ionicons } from '@expo/vector-icons'
 import { useAppTheme } from '../theme'
+import { useAppNavigation } from '../navigation'
 
 export default function Login() {
   const theme = useAppTheme()
@@ -17,6 +21,8 @@ export default function Login() {
     email: yup.string().email('Invalid email').required('Email required'),
     password: yup.string().required('Password required'),
   })
+
+  const navigation = useAppNavigation()
 
   const styles = StyleSheet.create({
     container: {
@@ -66,7 +72,7 @@ export default function Login() {
       borderColor: theme.colors.primary,
       padding: 9,
       borderWidth: 1,
-      borderRadius: 24
+      borderRadius: 24,
     },
     googleBtnText: {
       paddingBottom: 0,
@@ -169,7 +175,12 @@ export default function Login() {
       <TouchableOpacity style={styles.googleBtn}>
         <View style={styles.googleBtnText}>
           <Image
-            style={{ margin: 0, height: 20, width: 20, marginRight: theme.spacing[1] }}
+            style={{
+              margin: 0,
+              height: 20,
+              width: 20,
+              marginRight: theme.spacing[1],
+            }}
             source={require('../assets/images/google_icon.png')}
           />
           <Text variant='titleSmall'>Sign in with google</Text>
@@ -180,8 +191,11 @@ export default function Login() {
         <Text style={styles.registerText} variant='bodySmall'>
           Don't have an account?
         </Text>
-        <TouchableRipple>
-          <Text style={styles.link} variant='bodySmall'>
+        <TouchableRipple onPress={() => navigation.navigate('Register')}>
+          <Text
+            style={styles.link}
+            variant='bodySmall'
+          >
             Register
           </Text>
         </TouchableRipple>
