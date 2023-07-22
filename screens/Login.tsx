@@ -24,7 +24,21 @@ export default function Login() {
   console.log('THEME', theme)
 
   const validationSchema = yup.object().shape({
-    email: yup.string().email('Invalid email').required('Email required'),
+    email: yup
+      .string()
+      .email('Invalid email')
+      .test('valid-email', 'Invalid email', (value) => {
+        if (value) {
+          const [_, domainPart] = value.split('@')
+          return (
+            domainPart &&
+            domainPart.includes('.') &&
+            domainPart.split('.').pop().length > 0
+          )
+        }
+        return true
+      })
+      .required('Email required'),
     password: yup.string().required('Password required'),
   })
 
