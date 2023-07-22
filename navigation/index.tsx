@@ -6,10 +6,8 @@ import {
   DarkTheme,
 } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import {
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack'
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { Entypo } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
@@ -29,6 +27,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import Login from '../screens/Login'
 import Register from '../screens/Register'
 import { useAppTheme } from '../theme'
+import { useAppDispatch, useAppSelector } from '../redux/store'
+import { logout } from '../redux/slices/userSlice'
 
 export type RootStackParams = {
   Root: any
@@ -53,25 +53,30 @@ const MyTheme = {
   },
 }
 
-export const useAppNavigation = () => useNavigation<NativeStackNavigationProp<RootStackParams>>();
+export const useAppNavigation = () =>
+  useNavigation<NativeStackNavigationProp<RootStackParams>>()
 
 export default function Navigation() {
   const Stack = createNativeStackNavigator<RootStackParams>()
   const [currentRoute, setCurrentRoute] = useState(null)
   const navigationRef = createNavigationContainerRef()
   const DrawerNavigator = createDrawerNavigator()
-  const [isLoggedIn, setIsloggedIn] = useState(true)
+  const { user } = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch()
 
-  const DrawerContent = ({navigation}) => (
-      <View style={{ padding: 40 }}>
-        <Text variant='bodyLarge'>Drawer stuff here</Text>
-        <TouchableOpacity style={{}} onPress={() => navigation.navigate('Profile')}>
-          <Text variant='bodyMedium'>Go to profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setIsloggedIn(false)}>
+  const DrawerContent = ({ navigation }) => (
+    <View style={{ padding: 40 }}>
+      <Text variant='bodyLarge'>Drawer stuff here</Text>
+      <TouchableOpacity
+        style={{}}
+        onPress={() => navigation.navigate('Profile')}
+      >
+        <Text variant='bodyMedium'>Go to profile</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => dispatch(logout())}>
         <Text variant='bodyMedium'>Logout</Text>
-        </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
+    </View>
   )
 
   return (
@@ -89,16 +94,19 @@ export default function Navigation() {
         linking={linking}
         ref={navigationRef}
       >
-        {!isLoggedIn ? (
+        {!user ? (
           <>
-           <Stack.Navigator initialRouteName='Login' screenOptions={{
-             header: (props) => (
-              <AppBar {...props} currentRoute={currentRoute} />
-            ),
-           }} >
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Register" component={Register} />
-          </Stack.Navigator>
+            <Stack.Navigator
+              initialRouteName='Login'
+              screenOptions={{
+                header: (props) => (
+                  <AppBar {...props} currentRoute={currentRoute} />
+                ),
+              }}
+            >
+              <Stack.Screen name='Login' component={Login} />
+              <Stack.Screen name='Register' component={Register} />
+            </Stack.Navigator>
           </>
         ) : (
           <DrawerNavigator.Navigator

@@ -17,11 +17,15 @@ import * as yup from 'yup'
 import { Ionicons } from '@expo/vector-icons'
 import { useAppTheme } from '../theme'
 import { useAppNavigation } from '../navigation'
+import { useAppDispatch, useAppSelector } from '../redux/store'
+
+import { login } from '../redux/slices/userSlice'
 
 export default function Login() {
   const theme = useAppTheme()
-
-  console.log('THEME', theme)
+  const navigation = useAppNavigation()
+  const dispatch = useAppDispatch()
+  const { loading, error, user } = useAppSelector(state => state.user)
 
   const validationSchema = yup.object().shape({
     email: yup
@@ -41,8 +45,6 @@ export default function Login() {
       .required('Email required'),
     password: yup.string().required('Password required'),
   })
-
-  const navigation = useAppNavigation()
 
   const styles = StyleSheet.create({
     container: {
@@ -118,13 +120,9 @@ export default function Login() {
     initialValues: { email: '', password: '' },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values)
+      dispatch(login(values))
     },
   })
-
-  useEffect(() => {
-    console.log('FORMIK', formik.errors)
-  }, [formik])
 
   return (
     <View style={styles.container}>
@@ -139,7 +137,7 @@ export default function Login() {
           <TextInput
             mode='outlined'
             label='Email'
-            error={Boolean(formik.errors.email)}
+            error={Boolean(formik.submitCount > 0 && formik.errors.email)}
             value={formik.values.email}
             onChangeText={formik.handleChange('email')}
           />
@@ -147,7 +145,7 @@ export default function Login() {
           <Text
             style={{
               ...styles.errorText,
-              opacity: formik.errors.email ? 1 : 0,
+              opacity: formik.submitCount > 0 && formik.errors.email ? 1 : 0,
             }}
           >
             {formik.errors.email || ' '}
@@ -158,7 +156,7 @@ export default function Login() {
             mode='outlined'
             label='Password'
             secureTextEntry
-            error={Boolean(formik.errors.password)}
+            error={Boolean(formik.submitCount > 0 && formik.errors.password)}
             value={formik.values.password}
             onChangeText={formik.handleChange('password')}
           />
@@ -166,7 +164,7 @@ export default function Login() {
           <Text
             style={{
               ...styles.errorText,
-              opacity: formik.errors.password ? 1 : 0,
+              opacity: formik.submitCount > 0 && formik.errors.password ? 1 : 0,
             }}
           >
             {formik.errors.password || ' '}
@@ -177,6 +175,8 @@ export default function Login() {
             onPress={formik.handleSubmit}
             mode='contained'
             type='submit'
+            loading={loading}
+            disabled={loading}
             // title='Submit'
           >
             Submit

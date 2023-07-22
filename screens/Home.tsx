@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { getReminders } from '../redux/slices/reminderSlice'
 import { ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch } from '../redux/store'
+import { useAppDispatch } from '../redux/store'
 import { RootState } from '../redux/store'
 import { ActivityIndicator } from 'react-native-paper'
 import { useAppTheme } from '../theme'
@@ -37,7 +37,7 @@ const Home = ({ navigation }) => {
     }
   })
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
   const { reminders, loading, error } = useSelector(
     (state: RootState) => state.reminders
   )
@@ -45,7 +45,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     console.log(navigation)
 
-    dispatch(getReminders())
+    // dispatch(getReminders())
     dispatch(getUser())
   }, [])
 
