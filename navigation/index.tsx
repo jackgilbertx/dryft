@@ -29,6 +29,7 @@ import Register from '../screens/Register'
 import { useAppTheme } from '../theme'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { logout } from '../redux/slices/userSlice'
+import Drawer from './Drawer'
 
 export type RootStackParams = {
   Root: any
@@ -63,21 +64,6 @@ export default function Navigation() {
   const DrawerNavigator = createDrawerNavigator()
   const { user } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
-
-  const DrawerContent = ({ navigation }) => (
-    <View style={{ padding: 40 }}>
-      <Text variant='bodyLarge'>Drawer stuff here</Text>
-      <TouchableOpacity
-        style={{}}
-        onPress={() => navigation.navigate('Profile')}
-      >
-        <Text variant='bodyMedium'>Go to profile</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => dispatch(logout())}>
-        <Text variant='bodyMedium'>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  )
 
   return (
     <>
@@ -119,7 +105,7 @@ export default function Navigation() {
               ),
             }}
             drawerContent={(props) => (
-              <DrawerContent navigation={props.navigation} />
+              <Drawer navigation={props.navigation} />
             )}
           >
             <DrawerNavigator.Screen

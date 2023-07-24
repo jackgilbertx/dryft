@@ -28,7 +28,6 @@ const AppBar = ({ currentRoute }) => {
 
   const isLoggedIn = !['Register', 'Login'].includes(currentRoute)
 
-
   return (
     // @ts-ignore
     <View style={styles.container}>

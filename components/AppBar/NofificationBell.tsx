@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { Appbar, Menu, Badge } from 'react-native-paper';
+import React, { useState } from 'react'
+import { View } from 'react-native'
+import { Appbar, Menu, Badge } from 'react-native-paper'
 
 const NotificationBell = () => {
-  const [visible, setVisible] = useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
+  const [visible, setVisible] = useState(false)
+  const openMenu = () => setVisible(true)
+  const closeMenu = () => setVisible(false)
   return (
     <Menu
       visible={visible}
@@ -28,24 +28,24 @@ const NotificationBell = () => {
     >
       <Menu.Item
         onPress={() => {
-          console.log('Option 2 was pressed');
+          console.log('Option 2 was pressed')
         }}
         title='Call with clinician'
       />
       <Menu.Item
         onPress={() => {
-          console.log('Option 2 was pressed');
+          console.log('Option 2 was pressed')
         }}
         title='Message from physician'
       />
       <Menu.Item
         onPress={() => {
-          console.log('Option 3 was pressed');
+          console.log('Option 3 was pressed')
         }}
         title='Message from someone'
       />
     </Menu>
-  );
-};
+  )
+}
 
-export default NotificationBell;
+export default NotificationBell

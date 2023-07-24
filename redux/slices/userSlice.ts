@@ -40,8 +40,8 @@ const loginMock = (credentials: Credentials) => {
 const logoutMock = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve({success: true})
-    }, 2000)
+      resolve({ success: true })
+    }, 200)
   })
 }
 
@@ -51,7 +51,7 @@ export const getUser = createAsyncThunk('user/getUser', async () => {
   const res: Promise<User> = new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(mockUser)
-    }, 200)
+    }, 2000)
   })
   return res
 })
@@ -125,17 +125,11 @@ const userSlice = createSlice({
         state.error = 'Error'
       })
 
-      .addCase(logout.pending, (state) => {
-        state.loading = true
-      })
       .addCase(logout.fulfilled, (state) => {
-        state.loading = false
-        state.user = null
+        return initialState
       })
       .addCase(logout.rejected, (state) => {
-        state.loading = false
-        state.user = null
-        state.error = 'Error'
+        return initialState
       })
   },
 })
